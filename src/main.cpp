@@ -53,8 +53,9 @@ void OnPluginStart()
     if (!db->IsConnected())
         return;
 
-    db->Query("CREATE TABLE `%s` (`steamid` varchar(128) NOT NULL, `connected_time` int(11) NOT NULL DEFAULT 0) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;", config->Fetch<const char *>("mostactive.table_name"));
-    db->Query("ALTER TABLE `%s` ADD UNIQUE KEY `steamid` (`steamid`);", config->Fetch<const char *>("mostactive.table_name"));
+    DB_Result result = db->Query("CREATE TABLE IF NOT EXISTS `%s` (`steamid` varchar(128) NOT NULL, `connected_time` int(11) NOT NULL DEFAULT 0) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;", config->Fetch<const char *>("mostactive.table_name"));
+    if (result.size() > 0)
+        db->Query("ALTER TABLE `%s` ADD UNIQUE KEY `steamid` (`steamid`);", config->Fetch<const char *>("mostactive.table_name"));
 
     commands->Register(config->Fetch<const char *>("mostactive.hours_commands"), reinterpret_cast<void *>(&Command_Hours));
 
@@ -99,7 +100,7 @@ void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool sil
     if (player == nullptr)
         return;
 
-    DB_Result result = db->Query("select connected_time from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
+    DB_Result result = db->Query("select * from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
     if (result.size() > 0)
         player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.current_hours"), config->Fetch<const char *>("mostactive.prefix"), CalculateHours(db->fetchValue<uint32_t>(result, 0, "connected_time") + player->GetConnectedTime()));
     else
