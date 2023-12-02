@@ -25,7 +25,7 @@ void OnProgramLoad(const char *pluginName, const char *mainFilePath)
     logger = new Logger(mainFilePath, pluginName);
 }
 
-double CalculateHours(uint32_t seconds)
+float CalculateHours(uint32_t seconds)
 {
     return (seconds / 3600);
 }
@@ -41,9 +41,7 @@ void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool sil
     if (player == nullptr)
         return;
 
-    print("bf query\n");
     DB_Result result = db->Query("select * from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
-    print("af query\n result size: %d\n", result.size());
     if (result.size() > 0)
         player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.current_hours"), "PREFIX", CalculateHours(db->fetchValue<uint32_t>(result, 0, "connected_time") + player->GetConnectedTime()));
     else
