@@ -38,7 +38,7 @@ endif
 	$(foreach src,$(SRC_FILES),$(call COMPILE_FILE,$(src)))
 
 ifeq ($(OS),Windows_NT)
-	@robocopy ./plugin_files ./$(BUILD_DIR) /E /DCOPY:DAT /R:10 2>NUL || (echo)
+	@robocopy ./plugin_files ./$(BUILD_DIR) /MIR /DCOPY:DAT /R:10 2>NUL || (echo)
 else
 	mkdir $(BUILD_DIR)
 	@cp -r ./plugin_files/* ./$(BUILD_DIR)
