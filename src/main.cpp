@@ -43,7 +43,7 @@ void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool sil
 
     DB_Result result = db->Query("select * from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
     if (result.size() > 0)
-        player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.current_hours"), "PREFIX", CalculateHours(db->fetchValue<uint32_t>(result, 0, "connected_time") + player->GetConnectedTime()));
+        print(FetchTranslation("mostactive.current_hours"), config->Fetch<const char *>("mostactive.prefix"), CalculateHours(db->fetchValue<uint32_t>(result, 0, "connected_time") + player->GetConnectedTime()));
     else
         player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.no_entry"), config->Fetch<const char *>("mostactive.prefix"));
 }
