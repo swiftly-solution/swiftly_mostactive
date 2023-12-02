@@ -38,7 +38,7 @@ endif
 	$(foreach src,$(SRC_FILES),$(call COMPILE_FILE,$(src)))
 
 ifeq ($(OS),Windows_NT)
-	robocopy ./plugin_files ./$(BUILD_DIR) /MIR 2>NUL || (echo)
+	xcopy .\plugin_files .\$(BUILD_DIR) /E /C /I /F /R /Y
 else
 	mkdir $(BUILD_DIR)
 	@cp -r ./plugin_files/* ./$(BUILD_DIR)
