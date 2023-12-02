@@ -1,0 +1,10 @@
+{
+    "current_hours": {
+        "en": "%s At this moment you have %.2f hours played on server.",
+        "ro": "%s În acest moment ai %.2f ore jucate pe server."
+    },
+    "no_entry": {
+        "en": "%s You have no entry registered in database. Please reconnect to have one.",
+        "ro": "%s Nu ai nici-o intrare în baza de date. Te rugăm să te reconectezi pentru a avea una."
+    }
+}
