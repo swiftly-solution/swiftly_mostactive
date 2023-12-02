@@ -30,7 +30,23 @@ double CalculateHours(uint32_t seconds)
     return (seconds / 3600);
 }
 
-void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool silent);
+void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool silent)
+{
+    if (playerID == -1)
+        return;
+    if (!db->IsConnected())
+        return;
+
+    Player *player = g_playerManager->GetPlayer(playerID);
+    if (player == nullptr)
+        return;
+
+    DB_Result result = db->Query("select * from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
+    if (result.size() > 0)
+        player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.current_hours"), config->Fetch<const char *>("mostactive.prefix"), CalculateHours(db->fetchValue<uint32_t>(result, 0, "connected_time") + player->GetConnectedTime()));
+    else
+        player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.no_entry"), config->Fetch<const char *>("mostactive.prefix"));
+}
 
 void OnPluginStart()
 {
@@ -87,24 +103,6 @@ void OnClientDisconnect(Player *player)
     {
         db->Query("update %s set connected_time = connected_time + %d where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetConnectedTime(), player->GetSteamID());
     }
-}
-
-void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool silent)
-{
-    if (playerID == -1)
-        return;
-    if (!db->IsConnected())
-        return;
-
-    Player *player = g_playerManager->GetPlayer(playerID);
-    if (player == nullptr)
-        return;
-
-    DB_Result result = db->Query("select * from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
-    if (result.size() > 0)
-        player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.current_hours"), config->Fetch<const char *>("mostactive.prefix"), CalculateHours(db->fetchValue<uint32_t>(result, 0, "connected_time") + player->GetConnectedTime()));
-    else
-        player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.no_entry"), config->Fetch<const char *>("mostactive.prefix"));
 }
 
 const char *GetPluginAuthor()
