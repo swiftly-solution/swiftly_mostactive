@@ -19,7 +19,7 @@
   </p>
 </p>
 
-[Downloads](https://img.shields.io/github/downloads/swiftly-solution/swiftly_mostactive/total) [Contributors](https://img.shields.io/github/contributors/swiftly-solution/swiftly_mostactive?color=dark-green) ![Issues](https://img.shields.io/github/issues/swiftly-solution/swiftly_mostactive) [License](https://img.shields.io/github/license/swiftly-solution/swiftly_mostactive) 
+![Downloads](https://img.shields.io/github/downloads/swiftly-solution/swiftly_mostactive/total) ![Contributors](https://img.shields.io/github/contributors/swiftly-solution/swiftly_mostactive?color=dark-green) ![Issues](https://img.shields.io/github/issues/swiftly-solution/swiftly_mostactive) ![License](https://img.shields.io/github/license/swiftly-solution/swiftly_mostactive) 
 
 ### Installation 👀
 
