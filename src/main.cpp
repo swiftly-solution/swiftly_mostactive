@@ -4,6 +4,7 @@
 #include <swiftly/commands.h>
 #include <swiftly/configuration.h>
 #include <swiftly/logger.h>
+#include <swiftly/timers.h>
 
 #define CONNECTION_NAME "swiftly_mostactive"
 
@@ -13,6 +14,7 @@ Database *db = nullptr;
 Commands *commands = nullptr;
 Configuration *config = nullptr;
 Logger *logger = nullptr;
+Timers *timers = nullptr;
 
 void OnProgramLoad(const char *pluginName, const char *mainFilePath)
 {
@@ -23,11 +25,12 @@ void OnProgramLoad(const char *pluginName, const char *mainFilePath)
     commands = new Commands(pluginName);
     config = new Configuration();
     logger = new Logger(mainFilePath, pluginName);
+    timers = new Timers();
 }
 
 float CalculateHours(uint32_t seconds)
 {
-    return (seconds / 3600);
+    return (float(seconds) / 3600);
 }
 
 void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool silent)
@@ -43,16 +46,24 @@ void Command_Hours(int playerID, const char **args, uint32_t argsCount, bool sil
 
     DB_Result result = db->Query("select * from %s where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
     if (result.size() > 0)
-    {
-        print("Prefix: %s\n", config->Fetch<const char *>("mostactive.prefix"));
-        print("FetchTranslation: %s\n", FetchTranslation("mostactive.current_hours"));
-        print("Connected Time From DB: %d\n", db->fetchValue<int>(result, 0, "connected_time"));
-        print("Connected Time On Server: %d\n", player->GetConnectedTime());
-        print("CalculateHours: %.2f\n", CalculateHours(db->fetchValue<int>(result, 0, "connected_time") + player->GetConnectedTime()));
-        print(FetchTranslation("mostactive.current_hours"), config->Fetch<const char *>("mostactive.prefix"), CalculateHours(db->fetchValue<int>(result, 0, "connected_time") + player->GetConnectedTime()));
-    }
+        player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.current_hours"), config->Fetch<const char *>("mostactive.prefix"), CalculateHours(db->fetchValue<int>(result, 0, "connected_time") + player->GetConnectedTime()));
     else
         player->SendMsg(HUD_PRINTTALK, FetchTranslation("mostactive.no_entry"), config->Fetch<const char *>("mostactive.prefix"));
+}
+
+void SaveTimer()
+{
+    for (uint16_t i = 0; i < g_playerManager->GetPlayerCap(); i++)
+    {
+        Player *player = g_playerManager->GetPlayer(i);
+        if (player == nullptr)
+            continue;
+        if (player->IsFakeClient())
+            continue;
+
+        db->Query("update %s set connected_time = connected_time + %d where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), (player->GetConnectedTime() - player->vars->Get<int>("mostactive.time")), player->GetSteamID());
+        player->vars->Set("mostactive.time", player->GetConnectedTime());
+    }
 }
 
 void OnPluginStart()
@@ -83,11 +94,20 @@ void OnPluginStart()
     commands->Register(config->Fetch<const char *>("mostactive.hours_commands"), reinterpret_cast<void *>(&Command_Hours));
 
     logger->Write(LOGLEVEL_DEBUG, "Plugin started. Build Date: %s", __DATE__);
+    timers->RegisterTimer(60000, SaveTimer);
 }
 
 void OnPluginStop()
 {
     logger->Write(LOGLEVEL_DEBUG, "Plugin stopped.");
+}
+
+bool OnPlayerConnect(Player *player)
+{
+    if (!player->IsFakeClient())
+        player->vars->Set("mostactive.time", player->GetConnectedTime());
+
+    return true;
 }
 
 void OnPlayerSpawn(Player *player)
@@ -96,9 +116,7 @@ void OnPlayerSpawn(Player *player)
         return;
 
     if (player->IsFirstSpawn() && !player->IsFakeClient())
-    {
         db->Query("insert ignore into %s (steamid) values ('%llu')", config->Fetch<const char *>("mostactive.table_name"), player->GetSteamID());
-    }
 }
 
 void OnClientDisconnect(Player *player)
@@ -107,9 +125,7 @@ void OnClientDisconnect(Player *player)
         return;
 
     if (!player->IsFakeClient())
-    {
-        db->Query("update %s set connected_time = connected_time + %d where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), player->GetConnectedTime(), player->GetSteamID());
-    }
+        db->Query("update %s set connected_time = connected_time + %d where steamid = '%llu' limit 1", config->Fetch<const char *>("mostactive.table_name"), (player->GetConnectedTime() - player->vars->Get<int>("mostactive.time")), player->GetSteamID());
 }
 
 const char *GetPluginAuthor()
