@@ -41,7 +41,7 @@
 
 ### Configuring the plugin 🧐
 
-* After installing the plugin, you need to change the prefix from `addons/swiftly/configs/plugins` and if you want, you can change the messages from `addons/swiftly/translations`.
+* After installing the plugin, you need to change the prefix and the `hours` command name from `addons/swiftly/configs/plugins` and if you want, you can change the messages from `addons/swiftly/translations`.
 
 ### Creating A Pull Request 😃
 
