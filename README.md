@@ -29,7 +29,7 @@
 ```json
 {
     "swiftly_mostactive": {
-        "host": "...",
+        "hostname": "...",
         "username": "...",
         "password": "...",
         "database": "...",
