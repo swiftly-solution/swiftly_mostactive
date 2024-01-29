@@ -10,7 +10,7 @@
     A simple plugin for Swiftly that saves the connected time of a player on server in database.
     <br/>
     <br/>
-    <strong>Explore the docs » (soon)</strong>
+    <strong><a href="https://docs.swiftlycs2.net">Explore the docs</a></strong>
     <br/>
     <br/>
     <a href="https://github.com/swiftly-solution/swiftly_mostactive/issues">Report Bug</a>
