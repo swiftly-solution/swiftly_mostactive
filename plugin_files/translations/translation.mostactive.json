@@ -1,10 +1,44 @@
 {
     "current_hours": {
-        "en": "%s At this moment you have %.2f hours played on server.",
-        "ro": "%s În acest moment ai %.2f ore jucate pe server."
+        "en": "%s At this moment, you have %.2f hours played on the server.",
+        "ro": "%s În acest moment, ai %.2f ore jucate pe server.",
+        "ua": "%s У цей момент ви грали на сервері %.2f години.",
+        "fr": "%s En ce moment, vous avez joué %.2f heures sur le serveur.",
+        "es": "%s En este momento, has jugado %.2f horas en el servidor.",
+        "de": "%s In diesem Moment hast du %.2f Stunden auf dem Server gespielt.",
+        "it": "%s In questo momento hai giocato per %.2f ore sul server.",
+        "pt": "%s Neste momento, você jogou %.2f horas no servidor.",
+        "nl": "%s Op dit moment heb je %.2f uur gespeeld op de server.",
+        "ru": "%s В данный момент у вас %.2f часов игры на сервере.",
+        "zh": "%s 此刻您在服务器上已玩了 %.2f 小时。",
+        "ja": "%s この瞬間、サーバーで %.2f 時間プレイしました。",
+        "ko": "%s 현재 당신은 서버에서 %.2f 시간을 플레이했습니다.",
+        "ar": "%s في هذه اللحظة، لديك %.2f ساعة من اللعب على الخادم.",
+        "tr": "%s Bu anda sunucuda %.2f saat oynadınız.",
+        "sv": "%s Just nu har du spelat %.2f timmar på servern.",
+        "fi": "%s Tällä hetkellä sinulla on pelattuna %.2f tuntia palvelimella.",
+        "pl": "%s W tym momencie masz %.2f godzin grania na serwerze.",
+        "vi": "%s Hiện tại, bạn đã chơi %.2f giờ trên máy chủ."
     },
     "no_entry": {
-        "en": "%s You have no entry registered in database. Please reconnect to have one.",
-        "ro": "%s Nu ai nici-o intrare în baza de date. Te rugăm să te reconectezi pentru a avea una."
+        "en": "%s You have no entry registered in the database. Please reconnect to have one.",
+        "ro": "%s Nu ai nicio înregistrare în baza de date. Te rugăm să te reconectezi pentru a avea una.",
+        "ua": "%s У вас немає жодного запису в базі даних. Будь ласка, перепідключіться, щоб мати його.",
+        "fr": "%s Vous n'avez aucune entrée enregistrée dans la base de données. Veuillez vous reconnecter pour en avoir une.",
+        "es": "%s No tienes ninguna entrada registrada en la base de datos. Por favor, vuelve a conectar para tener una.",
+        "de": "%s Sie haben keinen Eintrag in der Datenbank registriert. Bitte verbinden Sie sich erneut, um einen zu haben.",
+        "it": "%s Non hai nessuna voce registrata nel database. Per favore, riconnettiti per averne una.",
+        "pt": "%s Você não possui nenhuma entrada registrada no banco de dados. Por favor, reconecte-se para ter uma.",
+        "nl": "%s Je hebt geen invoer geregistreerd in de database. Verbind opnieuw om er een te hebben.",
+        "ru": "%s У вас нет записей в базе данных. Пожалуйста, переподключитесь, чтобы их получить.",
+        "zh": "%s 在数据库中没有记录。请重新连接以获取记录。",
+        "ja": "%s データベースに登録されたエントリがありません。もう一度接続してください。",
+        "ko": "%s 데이터베이스에 등록된 항목이 없습니다. 다시 연결하여 등록하십시오.",
+        "ar": "%s ليس لديك أي إدخال مسجل في قاعدة البيانات. يرجى إعادة الاتصال للحصول على واحد.",
+        "tr": "%s Veritabanında kayıtlı hiçbir girişiniz yok. Lütfen bir tane sahip olmak için yeniden bağlanın.",
+        "sv": "%s Du har ingen post registrerad i databasen. Vänligen återanslut för att få en.",
+        "fi": "%s Sinulla ei ole tietokannassa rekisteröityjä merkintöjä. Ole hyvä ja yhdistä uudelleen saadaksesi yhden.",
+        "pl": "%s Nie masz żadnego wpisu zarejestrowanego w bazie danych. Proszę ponownie się połączyć, aby go uzyskać.",
+        "vi": "%s Bạn không có bản ghi nào được đăng ký trong cơ sở dữ liệu. Vui lòng kết nối lại để có một bản ghi."
     }
 }
